@@ -1,6 +1,12 @@
-# Added date field in students.csv
+# Added java.util.Date field in students.csv
 
 Use of customized fieldsetmapper in [jobConfiguration](https://github.com/panik5467/spring-batch-examples/blob/master/reading-data/csv-file/src/main/java/net/petrikainulainen/spring/batch/SpringBatchExampleJobConfig.java)
+
+With java.time.LocalDate:
+
+	String date = pFielSet.readString("dateTest");
+	DateTimeFormatter df = DateTimeFormatter.ofPattern("ddMMyyyy");
+	student.setDateTest(LocalDate.parse(date, df));
 
 # Test With Spring Course
 
