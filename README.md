@@ -1,3 +1,7 @@
+# Added date field in students.csv
+
+Use of customized fieldsetmapper in [jobConfiguration](https://github.com/panik5467/spring-batch-examples/blob/master/reading-data/csv-file/src/main/java/net/petrikainulainen/spring/batch/SpringBatchExampleJobConfig.java)
+
 # Test With Spring Course
 
 If you are struggling to write good automated tests for Spring web applications, you are not alone! [I have launched a video course](https://www.testwithspring.com/?utm_source=github&utm_medium=social&utm_content=spring-batch&utm_campaign=test-with-spring-course-presales) that describes how you can write automated tests which embrace change and help you to save your time (and nerves).
