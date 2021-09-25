@@ -17,6 +17,8 @@ import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.batch.item.file.transform.FieldSet;
+import org.springframework.validation.BindException;
 
 /**
  * This configuration class configures the Spring Batch job that
@@ -53,15 +55,42 @@ public class SpringBatchExampleJobConfig {
     private LineTokenizer createStudentLineTokenizer() {
         DelimitedLineTokenizer studentLineTokenizer = new DelimitedLineTokenizer();
         studentLineTokenizer.setDelimiter(";");
-        studentLineTokenizer.setNames(new String[]{"name", "emailAddress", "purchasedPackage"});
+        studentLineTokenizer.setNames(new String[]{"name", "emailAddress", "purchasedPackage", "dateTest"});
         return studentLineTokenizer;
     }
 
+/*
     private FieldSetMapper<StudentDTO> createStudentInformationMapper() {
         BeanWrapperFieldSetMapper<StudentDTO> studentInformationMapper = new BeanWrapperFieldSetMapper<>();
         studentInformationMapper.setTargetType(StudentDTO.class);
         return studentInformationMapper;
     }
+*/
+
+/*
+ * custom fieldSet mapper
+ */
+    private FieldSetMapper<StudentDTO> createStudentInformationMapper() {
+
+        BeanWrapperFieldSetMapper<StudentDTO> studentInformationMapper = new BeanWrapperFieldSetMapper<StudentDTO>() {
+
+        @Override
+        public StudentDTO mapFieldSet(FieldSet pFielSet) throws BindException {
+            StudentDTO student = new StudentDTO();
+            student.setName(pFielSet.readString("name"));
+            student.setEmailAddress(pFielSet.readString( "emailAddress"));
+            student.setPurchasedPackage(pFielSet.readString( "purchasedPackage"));
+            student.setDateTest(pFielSet.readDate("dateTest","ddMMyyyy"));
+            return student;
+
+        }
+	};
+
+        return studentInformationMapper;
+    }
+
+
+
 
     @Bean
     public ItemWriter<StudentDTO> itemWriter() {
