@@ -1,4 +1,4 @@
-NAME;EMAIL_ADDRESS;PACKAGE
-Tony Tester;tony.tester@gmail.com;master
-Nick Newbie;nick.newbie@gmail.com;starter
-Ian Intermediate;ian.intermediate@gmail.com;intermediate
+NAME;EMAIL_ADDRESS;PACKAGE;DATETEST
+Tony Tester;tony.tester@gmail.com;master;01022018
+Nick Newbie;nick.newbie@gmail.com;starter;02032019
+Ian Intermediate;ian.intermediate@gmail.com;intermediate;03049999
