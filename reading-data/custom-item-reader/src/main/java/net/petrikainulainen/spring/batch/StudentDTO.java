@@ -1,113 +1,91 @@
-package com.sample.app.entity;
+package net.petrikainulainen.spring.batch;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+/**
+ * Contains the information that's returned by our custom
+ * ItemReader.
+ */
+public class StudentDTO {
 
-@Entity
-@Table(name = "my_employee")
-public class Employee {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+    private String emailAddress;
+    private String name;
+    private String purchasedPackage;
+    private Integer age;
 
-	@Column(name = "first_name")
-	private String firstName;
+    public StudentDTO() {}
 
-	@Column(name = "last_name")
-	private String lastName;
+    public String getEmailAddress() {
+        return emailAddress;
+    }
 
-	@Column(name = "age")
-	private int age;
+    public String getName() {
+        return name;
+    }
 
-	@Column(name = "salary")
-	private double salary;
+    public String getPurchasedPackage() {
+        return purchasedPackage;
+    }
 
-	public int getId() {
-		return id;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(Integer name) {
+        this.age = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setPurchasedPackage(String purchasedPackage) {
+        this.purchasedPackage = purchasedPackage;
+    }
+
+	public static StudentBuilder builder() {
+		return new StudentBuilder();
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	public static class StudentBuilder {
+		private StudentDTO emp;
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public double getSalary() {
-		return salary;
-	}
-
-	public void setSalary(double salary) {
-		this.salary = salary;
-	}
-
-	public static EmployeeBuilder builder() {
-		return new EmployeeBuilder();
-	}
-
-	public static class EmployeeBuilder {
-		private Employee emp;
-
-		public EmployeeBuilder() {
-			emp = new Employee();
+		public StudentBuilder() {
+			emp = new StudentDTO();
 		}
 
-		public EmployeeBuilder firstName(String firstName) {
-			emp.setFirstName(firstName);
+		public StudentBuilder name(String name) {
+			emp.setName(name);
 			return this;
 		}
 
-		public EmployeeBuilder lastName(String lastName) {
-			emp.setLastName(lastName);
+		public StudentBuilder age(Integer name) {
+			emp.setAge(name);
 			return this;
 		}
 
-		public EmployeeBuilder age(int age) {
-			emp.setAge(age);
+		public StudentBuilder emailAddress(String mail) {
+			emp.setEmailAddress(mail);
 			return this;
 		}
 
-		public EmployeeBuilder salary(double salary) {
-			emp.setSalary(salary);
+		public StudentBuilder purchasedPackage(String pack) {
+			emp.setPurchasedPackage(pack);
 			return this;
 		}
 
-		public Employee build() {
+		public StudentDTO build() {
 			return emp;
 		}
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Employee [id=").append(id).append(", firstName=").append(firstName).append(", lastName=")
-				.append(lastName).append(", age=").append(age).append(", salary=").append(salary).append("]");
-		return builder.toString();
-	}
 
+
+
+    @Override
+    public String toString() {
+        return "[name=" + name + ",\tage=" + age + "]";
+    }
 }
