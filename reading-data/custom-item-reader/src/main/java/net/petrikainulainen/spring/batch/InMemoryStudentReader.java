@@ -1,10 +1,15 @@
 package net.petrikainulainen.spring.batch;
 
 import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.core.annotation.BeforeStep;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.*;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * This class demonstrates how we can implement a custom ItemReader.
@@ -13,29 +18,36 @@ public class InMemoryStudentReader implements ItemReader<StudentDTO> {
 
     private int nextStudentIndex;
     private List<StudentDTO> studentData;
+    private Set<StudentDTO> students;
+	private Iterator itr ;
 
     InMemoryStudentReader() {
-        initialize();
+        //initialize();
     }
 
     private void initialize() {
-        StudentDTO tony = new StudentDTO();
-        tony.setEmailAddress("tony.tester@gmail.com");
-        tony.setName("Tony Tester");
-        tony.setPurchasedPackage("master");
+		
+		studentData = new ArrayList<>();
+		
+		int rand = new Random().nextInt(10 - 5 + 1) + 5;
+		for (int i=0; i< rand ; i++) {
+			studentData.add(StudentDTO.builder().name("Tony").age(10).build());
+			studentData.add(StudentDTO.builder().name("Nick").age(5).build());
+			studentData.add(StudentDTO.builder().name("Ian").age(12).build());
+			//studentData.add(StudentDTO.builder().name("Ram").age(10).build());
+			//studentData.add(StudentDTO.builder().name("Sami").age(5).build());
+		}
 
-        StudentDTO nick = new StudentDTO();
-        nick.setEmailAddress("nick.newbie@gmail.com");
-        nick.setName("Nick Newbie");
-        nick.setPurchasedPackage("starter");
+        studentData = studentData.stream()
+			//.filter(s -> s.getAge() == 10)
+			.sorted(Comparator.comparingInt(StudentDTO::getAge))
+			.collect(Collectors.toList());
 
-        StudentDTO ian = new StudentDTO();
-        ian.setEmailAddress("ian.intermediate@gmail.com");
-        ian.setName("Ian Intermediate");
-        ian.setPurchasedPackage("intermediate");
-
-        studentData = Collections.unmodifiableList(Arrays.asList(tony, nick, ian));
         nextStudentIndex = 0;
+		
+		students = new HashSet<StudentDTO>(studentData);
+		itr = students.iterator();
+		
     }
 
     @Override
@@ -43,13 +55,20 @@ public class InMemoryStudentReader implements ItemReader<StudentDTO> {
         StudentDTO nextStudent = null;
 
         if (nextStudentIndex < studentData.size()) {
-            nextStudent = studentData.get(nextStudentIndex);
+            //nextStudent = studentData.get(nextStudentIndex);
             nextStudentIndex++;
         }
-        else {
-            nextStudentIndex = 0;
-        }
-
-        return nextStudent;
+		if (itr.hasNext())
+			nextStudent = (StudentDTO) itr.next();
+			//System.out.println("\t --------" + itr.next().toString());
+		
+		return nextStudent;
     }
+
+	@BeforeStep
+	public void beforeStep() {
+		initialize();
+	}
+	
+
 }
