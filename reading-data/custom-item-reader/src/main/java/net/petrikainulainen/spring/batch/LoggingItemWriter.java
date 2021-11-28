@@ -17,6 +17,8 @@ public class LoggingItemWriter implements ItemWriter<StudentDTO> {
 
     @Override
     public void write(List<? extends StudentDTO> list) throws Exception {
-        LOGGER.info("Writing students: {}", list);
+        //LOGGER.info("Writing students: {}", list);
+		System.out.println("\t***** chunk: " + list.size());
+		list.forEach(student -> System.out.println("\t----- " + student.toString()));
     }
 }
